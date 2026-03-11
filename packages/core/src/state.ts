@@ -54,9 +54,9 @@ export function supersededItems(state: ActiveContextState): MemoryItem[] {
   return queryItems(state, { status: "superseded" });
 }
 
-/** Get unresolved branches. */
+/** Get unresolved branches (hypothesis items tagged "branch" that are still tentative). */
 export function unresolvedBranches(state: ActiveContextState): MemoryItem[] {
-  return queryItems(state, { kind: "hypothesis", status: "tentative" });
+  return queryItems(state, { kind: "hypothesis", status: "tentative", tag: "branch" });
 }
 
 /** Get items touched since a given ISO timestamp. */
