@@ -24,6 +24,7 @@ import type {
   ProvenanceEvent,
   SourceRef,
 } from "./types.js";
+import { semanticId as computeSemanticId } from "./extractor/semantic-id.js";
 
 // ---------------------------------------------------------------------------
 // Errors
@@ -132,6 +133,23 @@ function applyDelta(state: ActiveContextState, delta: MemoryDelta): ApplyResult 
       if (delta.confidence) existing.confidence = delta.confidence;
       appendSourceTurns(existing, delta.sourceTurns);
       existing.lastTouched = delta.timestamp;
+      return { ok: true, item: existing };
+    }
+
+    case "constraint_revised": {
+      const existing = state.items.get(delta.targetId);
+      if (!existing) {
+        return { ok: false, reason: `constraint_revised target "${delta.targetId}" not found` };
+      }
+      if (existing.kind !== "constraint") {
+        return { ok: false, reason: `constraint_revised target "${delta.targetId}" is ${existing.kind}, not constraint` };
+      }
+      existing.summary = delta.summary;
+      appendSourceTurns(existing, delta.sourceTurns);
+      existing.lastTouched = delta.timestamp;
+      if (delta.mode) {
+        existing.tags = [...new Set([...(existing.tags ?? []), delta.mode])];
+      }
       return { ok: true, item: existing };
     }
 
@@ -248,10 +266,12 @@ function upsertItem(
     tags?: string[];
   },
 ): ApplyResult {
+  const sid = computeSemanticId(opts.kind, opts.summary);
   const existing = state.items.get(opts.id);
   if (existing) {
     // Duplicate detection: update existing item
     existing.summary = opts.summary;
+    existing.semanticId = sid;
     existing.status = opts.status;
     existing.confidence = opts.confidence;
     appendSourceTurns(existing, opts.sourceTurns);
@@ -262,6 +282,7 @@ function upsertItem(
 
   const item: MemoryItem = {
     id: opts.id,
+    semanticId: sid,
     kind: opts.kind,
     summary: opts.summary,
     status: opts.status,

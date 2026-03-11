@@ -1,6 +1,6 @@
 {
   "name": "@deltamind/core",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Typed deltas, state model, reconciliation, and provenance for active context compaction",
   "type": "module",
   "main": "dist/index.js",

@@ -52,6 +52,8 @@ export interface SourceRef {
 /** A single item in the active context state. */
 export interface MemoryItem {
   id: string;
+  /** Stable content hash — same meaning produces same semanticId regardless of extractor. */
+  semanticId?: string;
   kind: ItemKind;
   summary: string;
   status: ItemStatus;
@@ -89,6 +91,15 @@ export interface DecisionRevisedDelta extends DeltaBase {
   targetId: string;
   summary: string;
   confidence?: ConfidenceTier;
+}
+
+export interface ConstraintRevisedDelta extends DeltaBase {
+  kind: "constraint_revised";
+  /** Must point to an existing constraint. Invariant: reconciler rejects if target missing or wrong kind. */
+  targetId: string;
+  summary: string;
+  /** Was the constraint relaxed (carve-out/exception) or tightened? */
+  mode?: "relaxed" | "tightened" | "amended";
 }
 
 export interface ConstraintAddedDelta extends DeltaBase {
@@ -146,6 +157,7 @@ export interface GoalSetDelta extends DeltaBase {
 export type MemoryDelta =
   | DecisionMadeDelta
   | DecisionRevisedDelta
+  | ConstraintRevisedDelta
   | ConstraintAddedDelta
   | TaskOpenedDelta
   | TaskClosedDelta

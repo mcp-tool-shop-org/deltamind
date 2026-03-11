@@ -123,9 +123,8 @@ export const longPathological: TranscriptFixture = {
     { kind: "task_closed", targetId: "task-3b", resolution: "Two separate histograms + queue depth gauge", sourceTurns: [{ turnId: "t-35" }], timestamp: ts },
     // t-36-38: speculation disguised as fact → hypothesis NOT decision
     { kind: "hypothesis_introduced", id: "h-2", summary: "Model versioning with traffic splitting may be needed (ML team mentioned, not decided)", confidence: "low", sourceTurns: [{ turnId: "t-38" }], timestamp: ts },
-    // t-40: preprocessing constraint revision
-    { kind: "item_superseded", targetId: "c-3", reason: "GPU preprocessing needed for heavy operations like image resizing", sourceTurns: [{ turnId: "t-40" }], timestamp: ts },
-    { kind: "constraint_added", id: "c-4", summary: "CPU preprocessing by default; GPU allowed for compute-heavy ops (images)", hard: false, sourceTurns: [{ turnId: "t-40" }], timestamp: ts },
+    // t-40: preprocessing constraint relaxation (GPU allowed for heavy ops — amendment, not replacement)
+    { kind: "constraint_revised", targetId: "c-3", summary: "CPU preprocessing by default; GPU allowed for compute-heavy ops (images)", mode: "relaxed", sourceTurns: [{ turnId: "t-40" }], timestamp: ts },
     // t-44-46: caching flip-flop → decision
     { kind: "decision_made", id: "d-4", summary: "LRU cache for inference results (configurable, easy to disable)", confidence: "medium", sourceTurns: [{ turnId: "t-46" }], timestamp: ts },
     // t-48-49: health checks
@@ -155,8 +154,7 @@ export const longPathological: TranscriptFixture = {
     { id: "d-5", kind: "decision", status: "active", summaryContains: "ONNX", minSourceTurns: 1 },
     { id: "c-1", kind: "constraint", status: "active", summaryContains: "100ms", minSourceTurns: 1 },
     { id: "c-2", kind: "constraint", status: "active", summaryContains: "GPU", minSourceTurns: 1 },
-    { id: "c-3", kind: "constraint", status: "superseded", summaryContains: "superseded", minSourceTurns: 2 },
-    { id: "c-4", kind: "constraint", status: "active", summaryContains: "GPU allowed", minSourceTurns: 1 },
+    { id: "c-3", kind: "constraint", status: "active", summaryContains: "GPU", minSourceTurns: 2 },
     // b-2: single vs ensemble — STILL UNRESOLVED
     { id: "b-2", kind: "hypothesis", status: "tentative", summaryContains: "Single model", minSourceTurns: 1 },
     // h-2: model versioning — tentative, NOT promoted
@@ -172,9 +170,9 @@ export const longPathological: TranscriptFixture = {
   ],
   expectedQueries: {
     activeDecisionIds: ["d-2", "d-3", "d-4", "d-5"],
-    activeConstraintIds: ["c-1", "c-2", "c-4"],
+    activeConstraintIds: ["c-1", "c-2", "c-3"],
     openTaskIds: [],
-    supersededIds: ["b-1", "d-1", "c-3"],
+    supersededIds: ["b-1", "d-1"],
     // b-2 (single vs ensemble) still unresolved; h-1 and h-2 are tentative but NOT branches
     unresolvedBranchIds: ["b-2"],
   },

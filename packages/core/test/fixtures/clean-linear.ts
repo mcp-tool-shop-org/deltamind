@@ -28,12 +28,9 @@ export const cleanLinear: TranscriptFixture = {
     { kind: "decision_made", id: "d-1", summary: "Use TypeScript", confidence: "certain", sourceTurns: [{ turnId: "t-1" }], timestamp: ts },
     // t-3: hard constraint
     { kind: "constraint_added", id: "c-1", summary: "No runtime dependencies (zero-dep)", hard: true, sourceTurns: [{ turnId: "t-3" }], timestamp: ts },
-    // t-5: revise constraint, new decision
+    // t-5/t-6: new decision + constraint relaxation (not supersession — it's an amendment)
     { kind: "decision_made", id: "d-2", summary: "Use commander for CLI argument parsing", confidence: "high", sourceTurns: [{ turnId: "t-5" }], timestamp: ts },
-    { kind: "decision_revised", targetId: "d-1", summary: "Use TypeScript", sourceTurns: [{ turnId: "t-5" }], timestamp: ts },
-    // Actually the constraint is what gets revised — let's model it as supersede + new constraint
-    { kind: "item_superseded", targetId: "c-1", reason: "Revised to allow commander as sole exception", sourceTurns: [{ turnId: "t-5" }], timestamp: ts },
-    { kind: "constraint_added", id: "c-2", summary: "Zero runtime deps except commander", hard: true, sourceTurns: [{ turnId: "t-5" }], timestamp: ts },
+    { kind: "constraint_revised", targetId: "c-1", summary: "Zero-dep constraint relaxed to allow commander as sole exception", mode: "relaxed", sourceTurns: [{ turnId: "t-6" }], timestamp: ts },
     // t-7: task opened
     { kind: "task_opened", id: "task-1", summary: "Write core linting logic", sourceTurns: [{ turnId: "t-7" }], timestamp: ts },
     // t-8: task closed, new task opened
@@ -44,18 +41,17 @@ export const cleanLinear: TranscriptFixture = {
   ],
   expectedItems: [
     { id: "g-1", kind: "goal", status: "active", summaryContains: "CLI", minSourceTurns: 1 },
-    { id: "d-1", kind: "decision", status: "active", summaryContains: "TypeScript", minSourceTurns: 2 },
+    { id: "d-1", kind: "decision", status: "active", summaryContains: "TypeScript", minSourceTurns: 1 },
     { id: "d-2", kind: "decision", status: "active", summaryContains: "commander", minSourceTurns: 1 },
-    { id: "c-1", kind: "constraint", status: "superseded", summaryContains: "superseded", minSourceTurns: 2 },
-    { id: "c-2", kind: "constraint", status: "active", summaryContains: "commander", minSourceTurns: 1 },
+    { id: "c-1", kind: "constraint", status: "active", summaryContains: "dep", minSourceTurns: 1 },
     { id: "task-1", kind: "task", status: "resolved", summaryContains: "linting", minSourceTurns: 2 },
     { id: "task-2", kind: "task", status: "resolved", summaryContains: "tests", minSourceTurns: 2 },
   ],
   expectedQueries: {
     activeDecisionIds: ["d-1", "d-2"],
-    activeConstraintIds: ["c-2"],
+    activeConstraintIds: ["c-1"],
     openTaskIds: [],
-    supersededIds: ["c-1"],
+    supersededIds: [],
     unresolvedBranchIds: [],
   },
 };
