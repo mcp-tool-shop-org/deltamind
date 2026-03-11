@@ -1,0 +1,46 @@
+{
+  "name": "@deltamind/cli",
+  "version": "1.0.0",
+  "description": "Operator CLI for DeltaMind sessions — inspect, export, replay, debug",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "deltamind": "dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "node --import tsx --test test/**/*.test.ts",
+    "lint": "tsc --noEmit"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "deltamind",
+    "cli",
+    "context-compaction",
+    "agent-memory"
+  ],
+  "license": "MIT",
+  "author": "mcp-tool-shop",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcp-tool-shop-org/deltamind.git",
+    "directory": "packages/cli"
+  },
+  "dependencies": {
+    "@deltamind/core": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.4.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
