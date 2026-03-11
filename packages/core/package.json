@@ -1,0 +1,39 @@
+{
+  "name": "@deltamind/core",
+  "version": "0.0.1",
+  "description": "Typed deltas, state model, reconciliation, and provenance for active context compaction",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "node --import tsx --test test/**/*.test.ts",
+    "lint": "tsc --noEmit"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "context-compaction",
+    "agent-memory",
+    "deltas",
+    "state-machine"
+  ],
+  "license": "MIT",
+  "author": "mcp-tool-shop",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcp-tool-shop-org/deltamind.git",
+    "directory": "packages/core"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
