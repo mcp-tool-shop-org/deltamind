@@ -4,8 +4,11 @@ import { runFixture, formatResult } from "./harness/runner.js";
 import { cleanLinear } from "./fixtures/clean-linear.js";
 import { messyReal } from "./fixtures/messy-real.js";
 import { pathological } from "./fixtures/pathological.js";
+import { longLinear } from "./fixtures/long-linear.js";
+import { longMessy } from "./fixtures/long-messy.js";
+import { longPathological } from "./fixtures/long-pathological.js";
 
-const fixtures = [cleanLinear, messyReal, pathological];
+const fixtures = [cleanLinear, messyReal, pathological, longLinear, longMessy, longPathological];
 
 describe("Transcript harness", () => {
   for (const fixture of fixtures) {
