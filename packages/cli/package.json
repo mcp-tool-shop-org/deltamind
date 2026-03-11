@@ -1,6 +1,6 @@
 {
   "name": "@deltamind/cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Operator CLI for DeltaMind sessions — inspect, export, replay, debug",
   "type": "module",
   "main": "dist/index.js",
@@ -20,7 +20,9 @@
     "lint": "tsc --noEmit"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "README.*.md"
   ],
   "keywords": [
     "deltamind",
