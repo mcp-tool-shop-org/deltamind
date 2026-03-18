@@ -46,8 +46,12 @@ jobs:
       - name: Build cli
         run: npm run build -w packages/cli
 
-      - name: Test
-        run: npm test
+      - name: Test core
+        run: npm test -w packages/core
+
+      - name: Test cli
+        working-directory: packages/cli
+        run: node --import tsx --test test/changed.test.ts test/explain.test.ts test/export.test.ts test/inspect.test.ts test/io.test.ts test/replay.test.ts test/save-resume.test.ts test/suggest-memory.test.ts
 
       - name: Secret scan
         run: |
