@@ -9,14 +9,16 @@ The DeltaMind CLI provides operator handles for inspecting, debugging, and manag
 
 ## Installation
 
-```bash
-npm install @deltamind/cli
-```
-
-Or run directly:
+The CLI is available as the `@deltamind/cli` package. In the monorepo, run it directly:
 
 ```bash
 npx tsx packages/cli/src/index.ts <command>
+```
+
+Or, if installed as a dependency:
+
+```bash
+npx deltamind <command>
 ```
 
 ## Working directory

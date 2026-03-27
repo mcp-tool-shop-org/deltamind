@@ -21,7 +21,6 @@ What the session is trying to achieve. Goals are broad — "build a REST API" no
   id: "item-1",
   summary: "Build a REST API with TypeScript",
   confidence: "high",
-  scope: "session",
   sourceTurns: [{ turnId: "t-1" }],
   timestamp: "2026-03-11T..."
 }
@@ -31,7 +30,7 @@ What the session is trying to achieve. Goals are broad — "build a REST API" no
 
 A settled choice. The user or assistant decided something concrete.
 
-Fields: `id`, `summary`, `alternatives` (rejected options, if mentioned), `confidence`, `scope`, `sourceTurns`.
+Fields: `id`, `summary`, `confidence`, `sourceTurns`.
 
 ### `decision_revised`
 
@@ -45,7 +44,7 @@ The reconciler enforces type scoping: `decision_revised` can only target decisio
 
 A rule, boundary, or requirement. "No external databases." "Must support offline mode." "Budget is $500."
 
-Fields: `id`, `summary`, `hard` (boolean — hard constraints are non-negotiable), `confidence`, `scope`, `sourceTurns`.
+Fields: `id`, `summary`, `hard` (boolean — hard constraints are non-negotiable), `sourceTurns`.
 
 ### `constraint_revised`
 
@@ -77,7 +76,7 @@ Fields: `targetId`, `resolution` ("completed" or "abandoned"), `sourceTurns`.
 
 A stable piece of knowledge. Not a decision — a fact. "The API uses port 3000." "The database is PostgreSQL 15."
 
-Fields: `id`, `summary`, `confidence`, `scope`, `sourceTurns`.
+Fields: `id`, `summary`, `confidence`, `sourceTurns`.
 
 ### `hypothesis_introduced`
 
@@ -85,7 +84,7 @@ A tentative idea. Explicitly not a decision. "Maybe we should use Redis for cach
 
 This distinction is critical for safety. The system's zero-canonization invariant depends on hypotheses remaining tentative. They are tagged with `tentative` status and excluded from memory promotion suggestions.
 
-Fields: `id`, `summary`, `confidence` (usually "low" or "medium"), `sourceTurns`.
+Fields: `id`, `summary`, `confidence` (usually `"low"` or `"medium"`), `sourceTurns`.
 
 ### `branch_created`
 
@@ -101,7 +100,7 @@ Branch items are tagged with `"branch"` and excluded from memory promotion.
 
 Marks an existing item as replaced by something newer. The old item's status changes to `superseded` but it remains in state for history.
 
-Fields: `targetId` (the item being superseded), `newItemId` (optional — what replaced it), `reason`, `sourceTurns`.
+Fields: `targetId` (the item being superseded), `reason`, `sourceTurns`.
 
 ## Delta flow
 

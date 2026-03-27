@@ -60,13 +60,12 @@ Each candidate includes:
 
 **Job:** Merge duplicate candidates before reconciliation.
 
-When both extractors fire on the same state change, the normalizer deduplicates. Three strategies, in priority order:
+When both extractors fire on the same state change, the normalizer deduplicates. Four strategies, in priority order:
 
 1. **Semantic ID match** — Same kind + same semantic ID → merge. This is the strongest signal.
-2. **Target overlap** — Revision candidates targeting the same item → merge.
-3. **Word overlap** — Same kind + word overlap above threshold → merge.
-
-The normalizer also resolves targets for revision/supersession deltas using a shortlist of current state items, scored by semantic ID match and text similarity.
+2. **Word overlap (same kind)** — Same kind + canonicalized word overlap above 50% → merge.
+3. **Cross-kind semantic match** — Related kinds (e.g., `decision_made` and `constraint_added`) with canonicalized word overlap above 70% → merge. Prevents the same concept from appearing as both a decision and a constraint.
+4. **Target-based dedup** — Two revision or closure deltas targeting the same item → merge (keep the first).
 
 ## Pass 3: Reconciler
 

@@ -51,7 +51,7 @@ The reconciled working set. A map of **memory items** plus a delta log and seque
 - `kind` — one of: goal, decision, constraint, task, fact, hypothesis, open_question, rejected_option, dependency, risk, artifact
 - `summary` — human-readable description
 - `status` — active, tentative, superseded, resolved
-- `confidence` — high, medium, low
+- `confidence` — certain, high, medium, low
 - `scope` — session, project, durable
 - `sourceTurns` — which turns produced this item (provenance)
 - `lastTouched` — when the item was last created or modified
